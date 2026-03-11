@@ -1,9 +1,9 @@
-import type { Service } from "./interfaces";
-import { ServiceListItem } from "./components/ServiceListItem";
+import type { Service } from "../interfaces";
+import { ServiceListItem } from "../components/ServiceListItem";
 import { useEffect } from "react";
-import { useFecthServices } from "./hooks/useFetchServices";
+import { useFecthServices } from "../hooks/useFetchServices";
 
-function App() {
+export function BookingPage() {
 
   const { execute, services, query: servicesQuery, setQuery: setServicesQuery, setServices } = useFecthServices();
 
@@ -72,5 +72,3 @@ function App() {
     </div>
   )
 }
-
-export default App
