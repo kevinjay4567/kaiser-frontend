@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router";
 import { HomePage, BookingPage, LoginPage, AdminPage, DashboardPage, ManagerPage } from "./pages";
+import { ServiceDetail } from "./pages/ServiceDetail";
 
 const router = createBrowserRouter([
     {
@@ -8,7 +9,16 @@ const router = createBrowserRouter([
     },
     {
         path: "/booking",
-        Component: BookingPage,
+      children: [
+            {
+                index: true,
+                Component: BookingPage,
+            },
+            {
+                path: ":id",
+                Component: ServiceDetail,
+            }
+        ]
     },
     {
         path: "/login",
