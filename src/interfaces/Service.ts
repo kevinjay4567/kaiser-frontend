@@ -6,4 +6,5 @@ export interface Service {
   duration: number;
   urlImage?: string;
   discount: string;
+  description: string;
 }

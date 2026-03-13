@@ -1,8 +1,9 @@
 import { AdminLayout } from "../layouts/AdminLayout";
-export function DashboardPage() {
+
+export function AppointmentManager() {
   return (
     <AdminLayout>
-      <h1 className="text-2xl font-bold">Hola Mundo!</h1>
+      <div>Citas Manager </div>
     </AdminLayout>
   );
 }

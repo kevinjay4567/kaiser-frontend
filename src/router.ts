@@ -1,6 +1,16 @@
 import { createBrowserRouter } from "react-router";
-import { HomePage, BookingPage, LoginPage, AdminPage, DashboardPage, ManagerPage } from "./pages";
+import {
+    AdminPage,
+    BookingPage,
+    DashboardPage,
+    HomePage,
+    LoginPage,
+    ManagerPage,
+} from "./pages";
 import { ServiceDetail } from "./pages/ServiceDetail";
+import { ServiceManager } from "./pages/ServiceManager";
+import { AppointmentManager } from "./pages/AppointmentManager";
+import { EmployeeManager } from "./pages/EmployeeManager";
 
 const router = createBrowserRouter([
     {
@@ -9,7 +19,7 @@ const router = createBrowserRouter([
     },
     {
         path: "/booking",
-      children: [
+        children: [
             {
                 index: true,
                 Component: BookingPage,
@@ -17,8 +27,8 @@ const router = createBrowserRouter([
             {
                 path: ":id",
                 Component: ServiceDetail,
-            }
-        ]
+            },
+        ],
     },
     {
         path: "/login",
@@ -26,16 +36,33 @@ const router = createBrowserRouter([
     },
     {
         path: "/admin",
-        Component: AdminPage,
+        children: [
+            {
+                index: true,
+                Component: DashboardPage,
+            },
+            {
+                path: "dashboard",
+                Component: DashboardPage,
+            },
+            {
+                path: "manager",
+                Component: ManagerPage,
+            },
+            {
+                path: "services",
+                Component: ServiceManager,
+            },
+            {
+                path: "appointment",
+                Component: AppointmentManager,
+            },
+            {
+                path: "employee",
+                Component: EmployeeManager,
+            },
+        ],
     },
-    {
-        path: "/dashboard",
-        Component: DashboardPage,
-    },
-    {
-        path: "/manager",
-        Component: ManagerPage,
-    }
 ]);
 
 export default router;
