@@ -9,7 +9,7 @@ import { DashboardPage } from "./ui/pages/admin/Dashboard/DashboardPage";
 import { ServiceDetail } from "./ui/pages/ServiceDetail";
 import { ServiceManager } from "./ui/pages/admin/ServiceManager/ServiceManager";
 import { AppointmentManager } from "@/ui/pages/admin/AppointmentManager";
-import { EmployeeManager } from "./ui/pages/EmployeeManager";
+import { EmployeeManager } from "./ui/pages/admin/EmployeeManager/EmployeeManager";
 
 const router = createBrowserRouter([
     {

@@ -1,8 +1,8 @@
 import { AdminLayout } from "@/layouts/AdminLayout";
-import type { Service } from "@/interfaces";
 import { useFecthServices } from "@/hooks/useFetchServices";
 import { useEffect } from "react";
-import { ServiceMobileCard } from "./components/ServiceMobileCard";
+import { ServiceMobileCard } from "./components/ServiceMobileCards";
+import { ServiceDesktopTable } from "./components/ServiceDesktopTable";
 
 export function ServiceManager() {
   const { services, execute } = useFecthServices();
@@ -13,80 +13,12 @@ export function ServiceManager() {
 
   return (
     <AdminLayout>
-
-      {/* ===== Vista Desktop: tabla ===== */}
-      <div className="hidden md:block overflow-x-auto">
-        <table className="table table-zebra">
-          <thead>
-            <tr>
-              <th>
-                <label className="sr-only" htmlFor="select-all">
-                  Seleccionar todos los servicios
-                </label>
-                <input id="select-all" type="checkbox" className="checkbox" />
-              </th>
-              <th>Nombre</th>
-              <th>Descripción</th>
-              <th>Duración</th>
-              <th>
-                <span className="sr-only">Acciones</span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {services.map((service: Service) => (
-              <tr key={service.id}>
-                <td>
-                  <label className="sr-only" htmlFor={`service-${service.id}`}>
-                    Seleccionar {service.name}
-                  </label>
-                  <input
-                    id={`service-${service.id}`}
-                    type="checkbox"
-                    className="checkbox"
-                  />
-                </td>
-
-                <td>
-                  <div className="flex items-center gap-3">
-                    <div className="avatar">
-                      <div className="mask mask-squircle h-12 w-12">
-                        <img
-                          src={`http://localhost:3000/api/resources/images/${service.urlImage}`}
-                          alt={`Imagen de ${service.name}`}
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <div className="font-bold">{service.name}</div>
-                      <div className="text-sm opacity-60">${service.price}</div>
-                    </div>
-                  </div>
-                </td>
-
-                <td className="max-w-xs truncate" title={service.description}>
-                  {service.description}
-                </td>
-
-                <td>{service.duration} min</td>
-
-                <td>
-                  <button className="btn btn-ghost btn-sm">Detalle</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      {/* ===== Vista desktop: cards ===== */}
+      <ServiceDesktopTable services={services} />
 
       {/* ===== Vista móvil: cards ===== */}
-      <ul className="md:hidden space-y-3">
-        {services.map((service: Service) => (
-          <li key={service.id}>
-            <ServiceMobileCard service={service} />
-          </li>
-        ))}
-      </ul>
+      <ServiceMobileCard services={services} />
+
     </AdminLayout>
   );
 }
