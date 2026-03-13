@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import type { Service } from "../interfaces";
+import type { Service } from "../../interfaces";
 
 export function ServiceListItem(service: Service) {
   const navigate = useNavigate();

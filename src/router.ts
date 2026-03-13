@@ -1,16 +1,15 @@
 import { createBrowserRouter } from "react-router";
 import {
-    AdminPage,
     BookingPage,
-    DashboardPage,
     HomePage,
     LoginPage,
     ManagerPage,
-} from "./pages";
-import { ServiceDetail } from "./pages/ServiceDetail";
-import { ServiceManager } from "./pages/ServiceManager";
-import { AppointmentManager } from "./pages/AppointmentManager";
-import { EmployeeManager } from "./pages/EmployeeManager";
+} from "./ui/pages";
+import { DashboardPage } from "./ui/pages/admin/Dashboard/DashboardPage";
+import { ServiceDetail } from "./ui/pages/ServiceDetail";
+import { ServiceManager } from "./ui/pages/admin/ServiceManager/ServiceManager";
+import { AppointmentManager } from "@/ui/pages/admin/AppointmentManager";
+import { EmployeeManager } from "./ui/pages/EmployeeManager";
 
 const router = createBrowserRouter([
     {

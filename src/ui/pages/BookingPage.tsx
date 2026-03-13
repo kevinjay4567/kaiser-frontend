@@ -1,7 +1,7 @@
-import type { Service } from "../interfaces";
+import type { Service } from "../../interfaces";
 import { ServiceListItem } from "../components/ServiceListItem";
 import { useEffect, useState } from "react";
-import { useFecthServices } from "../hooks/useFetchServices";
+import { useFecthServices } from "../../hooks/useFetchServices";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
 import { ServiceSearchTool } from "../components/ServiceSearchTool";

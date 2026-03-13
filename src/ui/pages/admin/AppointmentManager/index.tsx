@@ -1,4 +1,4 @@
-import { AdminLayout } from "../layouts/AdminLayout";
+import { AdminLayout } from "@/layouts/AdminLayout";
 
 export function AppointmentManager() {
   return (
