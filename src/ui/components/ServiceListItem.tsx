@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router";
-import type { Service } from "../../interfaces";
+import type { Service } from "@/core/interfaces";
+import { API_URL } from "@/core/config/environment";
 
 export function ServiceListItem(service: Service) {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ export function ServiceListItem(service: Service) {
       <div>
         <img
           className="size-16 rounded-box"
-          src={`http://localhost:3000/api/resources/images/${service.urlImage}`}
+          src={`${API_URL}/resources/images/${service.urlImage}`}
         />
       </div>
       <div>

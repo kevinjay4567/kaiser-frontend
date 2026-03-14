@@ -1,11 +1,11 @@
-import type { Service } from "@/interfaces";
+import type { Service } from "@/core/interfaces";
 import { ServiceMobileImage } from "./ServiceMobileImage";
 
 interface Props {
     services: Service[];
 }
 
-export function ServiceMobileCard({ services }: Props) {
+export function ServiceMobileList({ services }: Props) {
     return (
         <ul className="md:hidden space-y-3">
             {services.map((service: Service) => (
@@ -17,7 +17,7 @@ export function ServiceMobileCard({ services }: Props) {
                                 className="checkbox self-start"
                                 aria-label={`Seleccionar ${service.name}`}
                             />
-                            <p>
+                            <div>
                                 <div
                                     className={
                                         service.state
@@ -25,8 +25,10 @@ export function ServiceMobileCard({ services }: Props) {
                                             : "status status-error animate-bounce mr-2"
                                     }
                                 ></div>
-                                ${service.price} - {service.duration} min
-                            </p>
+                                <span>
+                                    ${service.price} - {service.duration} min
+                                </span>
+                            </div>
                         </div>
                         <figure className="px-10 pt-4">
                             <ServiceMobileImage slug={service.urlImage} alt={`Imagen de ${service.name}`} />

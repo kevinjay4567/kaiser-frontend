@@ -1,39 +1,16 @@
+import { API_URL } from "@/core/config/environment";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-
-interface Service {
-    id: string;
-    name: string;
-    duration: number;
-    price: string;
-    discount: string;
-    state: boolean;
-    urlImage: string;
-    appointments: Array<Appointment>;
-}
-
-interface Appointment {
-    id: string;
-    serviceId: string;
-    employee: Employee
-}
-
-interface Employee {
-    id: string;
-    fullName: string;
-    state: boolean;
-    phone: string;
-}
+import type { Service } from "@/core/interfaces";
 
 export function ServiceDetail() {
     const params = useParams();
     const [service, setService] = useState<Service | null>(null);
 
     useEffect(() => {
-        fetch(`http://localhost:3000/api/services/${params.id}`)
+        fetch(`${API_URL}/services/${params.id}`)
             .then(async (res) => {
                 const json = await res.json();
-
                 setService(json);
             })
             .catch((err) => console.log(err))
