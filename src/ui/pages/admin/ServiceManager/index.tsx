@@ -3,6 +3,7 @@ import { useFecthServices } from "@/ui/pages/admin/ServiceManager/hooks/useFetch
 import { useEffect } from "react";
 import { ServiceMobileList } from "./components/ServiceMobileList";
 import { ServiceDesktopTable } from "./components/ServiceDesktopTable";
+import { CreateServiceDrawer } from "./components/CreateServiceDrawer";
 
 export function ServiceManager() {
   const { services, execute } = useFecthServices();
@@ -18,6 +19,8 @@ export function ServiceManager() {
 
       {/* ===== Vista móvil: cards ===== */}
       <ServiceMobileList services={services} />
+
+      <CreateServiceDrawer />
     </AdminLayout>
   );
 }
