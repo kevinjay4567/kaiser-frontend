@@ -1,6 +1,6 @@
 import { NavLink } from "react-router";
-import { HomeIcon } from "../ui/components/icons/HomeIcon";
-import { SettingsIcon1 } from "../ui/components/icons/SettingsIcon1";
+import { HomeIcon } from "@/ui/components/icons/HomeIcon";
+import { SettingsIcon1 } from "@/ui/components/icons/SettingsIcon1";
 
 export function AdminLayout({ children }: { children: React.ReactNode }) {
   return (

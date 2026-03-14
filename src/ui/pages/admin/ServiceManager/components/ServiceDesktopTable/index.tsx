@@ -1,14 +1,14 @@
-import { ServiceDesktopCard } from "./ServiceDesktopTableBody"
-import type { Service } from "@/interfaces"
+import type { Service } from "@/core/interfaces"
+import { TableRow } from "./TableRow"
 
 interface Props {
-    services: Service[]
+    data: Service[]
 }
 
-export function ServiceDesktopTable({ services }: Props) {
+export function ServiceDesktopTable({ data }: Readonly<Props>) {
     return (
         <div className="hidden md:block overflow-x-auto">
-            <table className="table">
+            <table className="table table-zebra">
                 <thead>
                     <tr>
                         <th>
@@ -25,9 +25,11 @@ export function ServiceDesktopTable({ services }: Props) {
                         </th>
                     </tr>
                 </thead>
-                {services.map((service: Service) => (
-                    <ServiceDesktopCard key={service.id} service={service} />
-                ))}
+                <tbody>
+                    {data.map((service: Service) => (
+                        <TableRow key={service.id} service={service} />
+                    ))}
+                </tbody>
             </table>
         </div>
     )

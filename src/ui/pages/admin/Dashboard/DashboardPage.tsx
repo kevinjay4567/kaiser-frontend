@@ -1,4 +1,4 @@
-import { AdminLayout } from "@/layouts/AdminLayout.tsx";
+import { AdminLayout } from "@/ui/layouts";
 export function DashboardPage() {
   return (
     <AdminLayout>
