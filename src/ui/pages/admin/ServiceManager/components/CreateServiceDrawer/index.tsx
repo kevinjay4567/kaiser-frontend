@@ -1,5 +1,5 @@
 import { API_URL } from "@/core/config/environment";
-import { useState, type ChangeEvent } from "react";
+import { useState, type ChangeEvent, type SubmitEvent } from "react";
 
 export function CreateServiceDrawer() {
   const [name, setName] = useState<string>("");
@@ -10,6 +10,7 @@ export function CreateServiceDrawer() {
   const [state, setState] = useState<boolean>(true);
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [image, setImage] = useState<File | null>(null);
 
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -20,6 +21,10 @@ export function CreateServiceDrawer() {
   };
 
   const handleDurationChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.trim() === '') {
+      setDuration(0);
+    }
+
     setDuration(Number(e.target.value));
   };
 
@@ -35,18 +40,38 @@ export function CreateServiceDrawer() {
     setState(e.target.checked);
   };
 
-  const handleCloseDrawer = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value === "on") {
-      setIsOpen(false);
-    } else {
-      setIsOpen(true);
-    }
-  };
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
 
-  const handleSendService = (e: any) => {
+    setImage(e.target.files[0]);
+  }
+
+  const handleSendImage = () => {
+    if (!image) return;
+
+    const formData = new FormData();
+
+    formData.append('image', image);
+
+    fetch(`${API_URL}/resources/images`, {
+      method: 'POST',
+      body: formData
+    })
+      .then(async (res) => {
+        const json = await res.json()
+        console.log(json)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  const handleSendService = (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setLoading(true);
+
+    handleSendImage();
 
     fetch(`${API_URL}/services`, {
       method: "POST",
@@ -60,6 +85,7 @@ export function CreateServiceDrawer() {
         state,
         discount,
         description,
+        urlImage: image?.name
       }),
     })
       .then(async (res) => {
@@ -195,6 +221,7 @@ export function CreateServiceDrawer() {
                     type="file"
                     className="file-input file-input-bordered file-input-error w-full bg-base-100"
                     accept="image/*"
+                    onChange={handleImageChange}
                   />
                   <label className="fieldset-label text-xs mt-2 opacity-70">
                     Tamaño máximo 10MB
