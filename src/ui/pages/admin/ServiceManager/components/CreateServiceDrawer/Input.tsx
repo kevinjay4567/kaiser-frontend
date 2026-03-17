@@ -3,10 +3,11 @@ interface Props {
     placeholder: string;
     type?: "text" | "number" | "url";
     isTextArea?: boolean;
+    onChange?: () => void;
 }
 {/* Por si al kevin le da por cambiar el tipo de dato de X cosa */ }
 
-export function Input({ title, placeholder, type = "text", isTextArea = false }: Props) {
+export function Input({ title, placeholder, type = "text", isTextArea = false, onChange }: Props) {
     return (
         <fieldset className="fieldset w-full">
             <legend className="fieldset-legend font-semibold">{title}</legend>
@@ -21,6 +22,7 @@ export function Input({ title, placeholder, type = "text", isTextArea = false }:
                     type={type}
                     className="input w-full input-bordered"
                     placeholder={placeholder}
+                    onChange={onChange}
                 />
             )}
         </fieldset>
