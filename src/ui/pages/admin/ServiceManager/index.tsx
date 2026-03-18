@@ -1,12 +1,43 @@
 import { AdminLayout } from "@/ui/layouts";
 import { useFecthServices } from "@/ui/pages/admin/ServiceManager/hooks/useFetchServices";
-import { useEffect } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import { ServiceMobileList } from "./components/ServiceMobileList";
 import { ServiceDesktopTable } from "./components/ServiceDesktopTable";
 import { CreateServiceDrawer } from "./components/CreateServiceDrawer";
+import { TrashIcon } from "@/ui/components/icons/TrashIcon";
+import { API_URL } from "@/core/config/environment";
 
 export function ServiceManager() {
   const { services, execute } = useFecthServices();
+  const [servicesIds, setServicesIds] = useState<string[]>([]);
+
+  const handleDeletes = (servicesIds: string[]) => {
+    fetch(`${API_URL}/services`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ids: servicesIds }),
+    })
+      .then(async (res) => {
+        const json = await res.json();
+        console.log(json);
+        setServicesIds([]);
+        execute();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const isChecked = (id: string, e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.checked) {
+      setServicesIds((val) => [...val, id]);
+    } else {
+      const result = servicesIds.filter((serviceId) => serviceId !== id);
+      setServicesIds(result);
+    }
+  };
 
   useEffect(() => {
     execute();
@@ -15,10 +46,10 @@ export function ServiceManager() {
   return (
     <AdminLayout>
       {/* ===== Vista desktop: table ===== */}
-      <ServiceDesktopTable data={services} />
+      <ServiceDesktopTable data={services} isChecked={isChecked} />
 
       {/* ===== Vista móvil: cards ===== */}
-      <ServiceMobileList services={services} />
+      <ServiceMobileList services={services} isChecked={isChecked} />
 
       <CreateServiceDrawer />
 
@@ -32,9 +63,7 @@ export function ServiceManager() {
             fill="currentColor"
             className="size-6"
           >
-            <path
-              d="M8.75 3.75a.75.75 0 0 0-1.5 0v3.5h-3.5a.75.75 0 0 0 0 1.5h3.5v3.5a.75.75 0 0 0 1.5 0v-3.5h3.5a.75.75 0 0 0 0-1.5h-3.5v-3.5Z"
-            />
+            <path d="M8.75 3.75a.75.75 0 0 0-1.5 0v3.5h-3.5a.75.75 0 0 0 0 1.5h3.5v3.5a.75.75 0 0 0 1.5 0v-3.5h3.5a.75.75 0 0 0 0-1.5h-3.5v-3.5Z" />
           </svg>
         </div>
 
@@ -56,8 +85,11 @@ export function ServiceManager() {
         </button>
 
         {/* buttons that show up when FAB is open */}
-        <button className="btn btn-circle btn-lg">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2"><path d="M10 11v6" /><path d="M14 11v6" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" /><path d="M3 6h18" /><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
+        <button
+          className="btn btn-circle btn-lg"
+          onClick={() => handleDeletes(servicesIds)}
+        >
+          <TrashIcon />
         </button>
         <button className="btn btn-circle btn-lg">
           <svg
@@ -67,9 +99,7 @@ export function ServiceManager() {
             fill="currentColor"
             className="size-6"
           >
-            <path
-              d="M3 4.75a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM6.25 3a.75.75 0 0 0 0 1.5h7a.75.75 0 0 0 0-1.5h-7ZM6.25 7.25a.75.75 0 0 0 0 1.5h7a.75.75 0 0 0 0-1.5h-7ZM6.25 11.5a.75.75 0 0 0 0 1.5h7a.75.75 0 0 0 0-1.5h-7ZM4 12.25a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM3 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
-            />
+            <path d="M3 4.75a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM6.25 3a.75.75 0 0 0 0 1.5h7a.75.75 0 0 0 0-1.5h-7ZM6.25 7.25a.75.75 0 0 0 0 1.5h7a.75.75 0 0 0 0-1.5h-7ZM6.25 11.5a.75.75 0 0 0 0 1.5h7a.75.75 0 0 0 0-1.5h-7ZM4 12.25a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM3 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" />
           </svg>
         </button>
         <button className="btn btn-circle btn-lg">
@@ -96,9 +126,7 @@ export function ServiceManager() {
             className="size-6"
           >
             <path d="M8 1a2 2 0 0 0-2 2v4a2 2 0 1 0 4 0V3a2 2 0 0 0-2-2Z" />
-            <path
-              d="M4.5 7A.75.75 0 0 0 3 7a5.001 5.001 0 0 0 4.25 4.944V13.5h-1.5a.75.75 0 0 0 0 1.5h4.5a.75.75 0 0 0 0-1.5h-1.5v-1.556A5.001 5.001 0 0 0 13 7a.75.75 0 0 0-1.5 0 3.5 3.5 0 1 1-7 0Z"
-            />
+            <path d="M4.5 7A.75.75 0 0 0 3 7a5.001 5.001 0 0 0 4.25 4.944V13.5h-1.5a.75.75 0 0 0 0 1.5h4.5a.75.75 0 0 0 0-1.5h-1.5v-1.556A5.001 5.001 0 0 0 13 7a.75.75 0 0 0-1.5 0 3.5 3.5 0 1 1-7 0Z" />
           </svg>
         </button>
       </div>
