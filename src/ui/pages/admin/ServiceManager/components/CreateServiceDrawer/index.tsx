@@ -21,7 +21,7 @@ export function CreateServiceDrawer() {
   };
 
   const handleDurationChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.trim() === '') {
+    if (e.target.value.trim() === "") {
       setDuration(0);
     }
 
@@ -44,27 +44,27 @@ export function CreateServiceDrawer() {
     if (!e.target.files) return;
 
     setImage(e.target.files[0]);
-  }
+  };
 
   const handleSendImage = () => {
     if (!image) return;
 
     const formData = new FormData();
 
-    formData.append('image', image);
+    formData.append("image", image);
 
     fetch(`${API_URL}/resources/images`, {
-      method: 'POST',
-      body: formData
+      method: "POST",
+      body: formData,
     })
       .then(async (res) => {
-        const json = await res.json()
-        console.log(json)
+        const json = await res.json();
+        console.log(json);
       })
       .catch((err) => {
-        console.log(err)
-      })
-  }
+        console.log(err);
+      });
+  };
 
   const handleSendService = (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -85,7 +85,7 @@ export function CreateServiceDrawer() {
         state,
         discount,
         description,
-        urlImage: image?.name
+        urlImage: image?.name,
       }),
     })
       .then(async (res) => {

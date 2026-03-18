@@ -9,8 +9,19 @@ export interface Service {
   urlImage?: string;
   discount: string;
   description: string;
-  appointments: Appointment[]
+  appointments: Appointment[];
 }
+
+export const blankService: Service = {
+  id: "",
+  name: "",
+  price: "",
+  state: false,
+  duration: 0,
+  discount: "",
+  description: "",
+  appointments: [],
+};
 
 export interface ServiceQueryResponse {
   results: ServiceQueryResult[];

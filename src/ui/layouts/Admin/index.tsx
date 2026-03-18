@@ -112,6 +112,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
               </NavLink>
             </li>
             <li>
+              {/*TODO: Solucionar el tamaño y choque con vista desktop*/}
               <button className="btn btn-error" onClick={() => handleLogout()}>
                 Cerrar sesión
                 <svg
