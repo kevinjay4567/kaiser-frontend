@@ -28,8 +28,8 @@ export function EditServiceModal({ ref, service }: Readonly<Props>) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: editService.name.trim() === "" ? undefined : editService.name,
-        price: editService.price.trim() === "" ? undefined : editService.price,
+        name: editService.name || undefined,
+        price: editService.price || undefined,
       }),
     })
       .then(async (res) => {
