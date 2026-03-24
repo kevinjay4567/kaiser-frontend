@@ -1,7 +1,11 @@
 import { API_URL } from "@/core/config/environment";
 import { useState, type ChangeEvent, type SubmitEvent } from "react";
 
-export function CreateServiceDrawer() {
+interface Props {
+  reload?: () => Promise<void>;
+}
+
+export function CreateServiceDrawer({ reload }: Readonly<Props>) {
   const [name, setName] = useState<string>("");
   const [price, setPrice] = useState<string>("");
   const [duration, setDuration] = useState<number>(0);
@@ -26,6 +30,14 @@ export function CreateServiceDrawer() {
     }
 
     setDuration(Number(e.target.value));
+  };
+
+  const getInputDuration = () => {
+    if (duration === 0) {
+      return "";
+    }
+
+    return duration.toString();
   };
 
   const handleDiscountChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -89,8 +101,10 @@ export function CreateServiceDrawer() {
       }),
     })
       .then(async (res) => {
-        const json = await res.json();
-        console.log(json);
+        await res.json();
+        if (reload) {
+          await reload();
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -180,7 +194,7 @@ export function CreateServiceDrawer() {
                     type="number"
                     className="input w-full input-bordered"
                     placeholder="Ingrese duración del servicio"
-                    value={duration}
+                    value={getInputDuration()}
                     onChange={(e) => handleDurationChange(e)}
                   />
                 </fieldset>

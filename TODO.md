@@ -4,5 +4,5 @@ PA Kobar:
 
 
 PA Kevin:
-- [ ] solucionar campo minutos formulario nuevo servicio.
-- [ ] mejoras en la experiencia de usuario al cargar los servicios.
+- [x] solucionar campo minutos formulario nuevo servicio.
+- [x] mejoras en la experiencia de usuario al cargar los servicios.

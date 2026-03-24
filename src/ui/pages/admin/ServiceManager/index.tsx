@@ -51,7 +51,7 @@ export function ServiceManager() {
       {/* ===== Vista móvil: cards ===== */}
       <ServiceMobileList services={services} isChecked={isChecked} />
 
-      <CreateServiceDrawer />
+      <CreateServiceDrawer reload={execute} />
 
       <div className="fab fab-flower">
         {/* a focusable div with tabIndex is necessary to work on all browsers. role="button" is necessary for accessibility */}
