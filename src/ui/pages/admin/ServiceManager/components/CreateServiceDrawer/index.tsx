@@ -1,4 +1,5 @@
 import { API_URL } from "@/core/config/environment";
+import { BaseAlert } from "@/ui/components/base/BaseAlert";
 import { useState, type ChangeEvent, type SubmitEvent } from "react";
 
 interface Props {
@@ -15,6 +16,7 @@ export function CreateServiceDrawer({ reload }: Readonly<Props>) {
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [image, setImage] = useState<File | null>(null);
+  const [successMessage, setSuccesMessage] = useState<string>("");
 
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -102,8 +104,10 @@ export function CreateServiceDrawer({ reload }: Readonly<Props>) {
     })
       .then(async (res) => {
         await res.json();
-        if (reload) {
-          await reload();
+        if (res.status === 201) {
+          if (reload) {
+            await reload();
+          }
         }
       })
       .catch((err) => {
@@ -118,6 +122,8 @@ export function CreateServiceDrawer({ reload }: Readonly<Props>) {
         setDiscount("0");
         setDescription("");
         setState(true);
+        setSuccesMessage("Servicio creado exitosamente");
+        setTimeout(() => setSuccesMessage(""), 5000);
       });
   };
 
@@ -277,6 +283,10 @@ export function CreateServiceDrawer({ reload }: Readonly<Props>) {
             </form>
           </div>
         </div>
+
+        {successMessage.trim() !== "" ? (
+          <BaseAlert label={successMessage} variant="success" />
+        ) : null}
       </div>
     </div>
   );
