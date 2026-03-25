@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 
 export function AparienceSwitcher() {
   const [isDark, setIsDark] = useState(
-    () => localStorage.getItem("theme") === "synthwave",
+    () => localStorage.getItem("theme") === "dark",
   );
 
   useEffect(() => {
-    const theme = isDark ? "synthwave" : "light";
+    const theme = isDark ? "dark" : "light";
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
   }, [isDark]);
@@ -29,7 +29,7 @@ export function AparienceSwitcher() {
       </svg>
       <input
         type="checkbox"
-        value="synthwave"
+        value="dark"
         className="toggle theme-controller"
         checked={isDark}
         onChange={(e) => setIsDark(e.target.checked)}
