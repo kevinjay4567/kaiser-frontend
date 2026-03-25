@@ -1,9 +1,8 @@
 import { NavLink } from "react-router";
-import { HomeIcon } from "@/ui/components/icons/HomeIcon";
-import { SettingsIcon1 } from "@/ui/components/icons/SettingsIcon1";
 import { AvatarMenu } from "../components/avatarMenu";
 import { BaseAlert } from "@/ui/components/base/BaseAlert";
 import { useNotify } from "@/ui/hooks/useNotify";
+import { BaseIcon } from "@/ui/components/base/BaseIcon";
 
 export function AdminLayout({ children }: { children: React.ReactNode }) {
   const notify = useNotify();
@@ -20,7 +19,12 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
               className="btn btn-square btn-ghost"
             >
               {/* Sidebar toggle icon */}
-              <HomeIcon />
+              <BaseIcon
+                icon="slide"
+                size={24}
+                color="currentColor"
+                viewBox="0 0 24 24"
+              />
             </label>
             <div className="px-4">Dashboard</div>
           </div>
@@ -56,7 +60,12 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
                 data-tip="Homepage"
               >
                 {/* Home icon */}
-                <SettingsIcon1 />
+                <BaseIcon
+                  icon="settings"
+                  size={24}
+                  color="currentColor"
+                  viewBox="0 0 24 24"
+                />
                 <span className="is-drawer-close:hidden">Empleados</span>
               </NavLink>
             </li>
@@ -69,7 +78,12 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
                 data-tip="Settings"
               >
                 {/* Settings icon */}
-                <HomeIcon />
+                <BaseIcon
+                  icon="slide"
+                  size={24}
+                  color="currentColor"
+                  viewBox="0 0 24 24"
+                />
                 <span className="is-drawer-close:hidden">Citas</span>
               </NavLink>
             </li>
@@ -81,19 +95,13 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
                 data-tip="Servicios"
               >
                 {/* Services icon */}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
+                <BaseIcon
+                  icon="settings"
+                  size={24}
+                  color="currentColor"
                   viewBox="0 0 24 24"
-                  strokeLinejoin="round"
-                  strokeLinecap="round"
-                  strokeWidth="2"
-                  fill="none"
-                  stroke="currentColor"
-                  className="my-1.5 inline-block size-4"
-                >
-                  <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
-                  <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                </svg>
+                />
+
                 <span className="is-drawer-close:hidden">Servicios</span>
               </NavLink>
             </li>
