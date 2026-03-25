@@ -7,7 +7,7 @@ export function BaseAlert({ label, variant }: Readonly<Props>) {
   return (
     <div
       role="alert"
-      className={`alert alert-${variant ?? "info"} alert-soft fixed bottom-5`}
+      className={`alert alert-${variant} alert-soft fixed bottom-5`}
     >
       <span>{label}</span>
     </div>

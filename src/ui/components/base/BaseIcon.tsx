@@ -1,5 +1,5 @@
-import type { IconName } from "../icons/icons";
-import { icons } from "../icons/icons";
+import type { IconName } from "../icons/Icons";
+import { icons } from "../icons/Icons";
 
 interface Props {
   icon: IconName;
