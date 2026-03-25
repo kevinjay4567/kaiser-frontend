@@ -2,8 +2,11 @@ import { NavLink } from "react-router";
 import { HomeIcon } from "@/ui/components/icons/HomeIcon";
 import { SettingsIcon1 } from "@/ui/components/icons/SettingsIcon1";
 import { AvatarMenu } from "../components/avatarMenu";
+import { BaseAlert } from "@/ui/components/base/BaseAlert";
+import { useNotify } from "@/ui/hooks/useNotify";
 
 export function AdminLayout({ children }: { children: React.ReactNode }) {
+  const notify = useNotify();
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -24,7 +27,15 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
           <AvatarMenu />
         </nav>
         {/* Page content here */}
-        <div className="p-4">{children}</div>
+        <div className="p-4">
+          {children}
+          {notify.isVisible ? (
+            <BaseAlert
+              label={notify.message.label}
+              variant={notify.message.type}
+            />
+          ) : null}
+        </div>
       </div>
 
       <div className="drawer-side is-drawer-close:overflow-visible">

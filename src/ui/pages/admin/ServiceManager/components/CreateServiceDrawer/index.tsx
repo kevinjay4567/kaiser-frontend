@@ -1,5 +1,6 @@
 import { API_URL } from "@/core/config/environment";
 import { BaseAlert } from "@/ui/components/base/BaseAlert";
+import { useNotify } from "@/ui/hooks/useNotify";
 import { useState, type ChangeEvent, type SubmitEvent } from "react";
 
 interface Props {
@@ -7,6 +8,7 @@ interface Props {
 }
 
 export function CreateServiceDrawer({ reload }: Readonly<Props>) {
+  const { setMessage, notify } = useNotify();
   const [name, setName] = useState<string>("");
   const [price, setPrice] = useState<string>("");
   const [duration, setDuration] = useState<number>(0);
@@ -104,10 +106,21 @@ export function CreateServiceDrawer({ reload }: Readonly<Props>) {
     })
       .then(async (res) => {
         await res.json();
+
         if (res.status === 201) {
           if (reload) {
             await reload();
           }
+
+          setMessage({
+            label: "Servicio creado correctamente",
+            type: "success",
+          });
+        } else {
+          setMessage({
+            label: "Error al crear el servico",
+            type: "error",
+          });
         }
       })
       .catch((err) => {
@@ -122,8 +135,7 @@ export function CreateServiceDrawer({ reload }: Readonly<Props>) {
         setDiscount("0");
         setDescription("");
         setState(true);
-        setSuccesMessage("Servicio creado exitosamente");
-        setTimeout(() => setSuccesMessage(""), 5000);
+        notify();
       });
   };
 

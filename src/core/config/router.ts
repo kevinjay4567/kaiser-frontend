@@ -7,6 +7,7 @@ import { AppointmentManager } from "@/ui/pages/admin/AppointmentManager";
 import { EmployeeManager } from "@/ui/pages/admin/EmployeeManager/EmployeeManager";
 import { AuthContext } from "@/ui/contexts/auth/AuthContext";
 import { redirect } from "react-router";
+import { NotifyProvider } from "@/ui/contexts/notify/NotifyProvider";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,7 @@ const router = createBrowserRouter([
   {
     path: "/admin",
     loader: authLoader,
+    Component: NotifyProvider,
     children: [
       {
         index: true,
