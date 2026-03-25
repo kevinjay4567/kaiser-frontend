@@ -74,16 +74,16 @@ export function ServiceManager() {
         </button>
 
         {/* buttons that show up when FAB is open */}
-        <button
-          className="btn btn-circle btn-lg btn-success"
-          onClick={() => handleDeletes(servicesIds)}
-        >
+        <button className="btn btn-circle btn-lg btn-success">
           <BaseIcon icon="plus" size={24} color="currentColor" />
         </button>
         <button className="btn btn-circle btn-lg btn-warning">
           <BaseIcon icon="edit" size={24} color="currentColor" />
         </button>
-        <button className="btn btn-circle btn-lg btn-error">
+        <button
+          className="btn btn-circle btn-lg btn-error"
+          onClick={() => handleDeletes(servicesIds)}
+        >
           <BaseIcon
             icon="trash"
             size={24}
