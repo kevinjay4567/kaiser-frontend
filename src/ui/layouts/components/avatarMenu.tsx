@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router";
 import { API_URL } from "@/core/config/environment";
+import { AparienceSwitcher } from "./AparienceSwitcher";
 
 export function AvatarMenu() {
   const navigate = useNavigate();
@@ -40,7 +41,9 @@ export function AvatarMenu() {
           <a>Mi Perfil</a>
         </li>
         <li>
-          <a>Configuración</a>
+          <div className="flex flex-row items-center justify-between">
+            <p> Apariencia </p> <AparienceSwitcher />
+          </div>
         </li>
         <li>
           <button className="btn btn-error mt-2" onClick={() => handleLogout()}>
