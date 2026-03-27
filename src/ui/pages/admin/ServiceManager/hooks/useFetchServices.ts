@@ -1,20 +1,23 @@
-import { useState } from "react"
+import { useState } from "react";
 import type { Service } from "@/core/interfaces";
-import { API_URL } from "@/core/config/environment";
+import OperationService from "@/core/services/OperationService";
+import RuntimeException from "@/core/exceptions/RuntimeException";
 
 export const useFecthServices = () => {
-    const [services, setServices] = useState<Service[]>([]);
-    const [query, setQuery] = useState('');
+  const [services, setServices] = useState<Service[]>([]);
+  const [query, setQuery] = useState("");
+  const [error, setError] = useState<RuntimeException | null>(null);
 
-    async function execute() {
-        try {
-            const res = await fetch(`${API_URL}/services`);
-            const json = await res.json();
-            setServices(json);
-        } catch (err) {
-            console.log(err);
-        }
+  async function execute() {
+    try {
+      const data = await OperationService.all();
+      setServices(data);
+    } catch (err) {
+      if (err instanceof RuntimeException) {
+        setError(err);
+      }
     }
+  }
 
-    return { query, services, execute, setQuery, setServices }
-}
+  return { query, services, execute, setQuery, setServices, error };
+};
