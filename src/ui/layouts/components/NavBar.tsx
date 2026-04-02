@@ -14,7 +14,7 @@ const Navbar = () => {
           </span>
         </div>
 
-        {/* Desktop */}
+        
         <div className="hidden md:flex items-center gap-8">
           <a href="#servicios" className="font-body text-sm text-muted-foreground hover:text-primary transition-colors">
             Servicios
@@ -30,13 +30,13 @@ const Navbar = () => {
           </button>
         </div>
 
-        {/* Mobile toggle */}
+        
         <button className="md:hidden text-foreground" onClick={() => setIsOpen(!isOpen)}>
-          {/* {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />} */}
+          
         </button>
       </div>
 
-      {/* Mobile menu */}
+      
       {isOpen && (
         <div className="md:hidden bg-background border-b border-border px-4 pb-4 space-y-3">
           <a href="#servicios" className="block font-body text-sm text-muted-foreground hover:text-primary py-2">Servicios</a>
