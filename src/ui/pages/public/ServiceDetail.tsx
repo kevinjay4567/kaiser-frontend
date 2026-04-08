@@ -2,45 +2,94 @@ import { API_URL } from "@/core/config/environment";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import type { Service } from "@/core/interfaces";
+import { DayPicker } from "react-day-picker";
 
 export function ServiceDetail() {
-    const params = useParams();
-    const [service, setService] = useState<Service | null>(null);
+  const params = useParams();
+  const [service, setService] = useState<Service | null>(null);
+  const [date, setDate] = useState<Date | undefined>();
+  const [busyDate, setBusyDate] = useState<Date>(new Date(2026, 3, 9));
+  const [time, setTime] = useState<string>("");
+  const [busyTime, setBusyTime] = useState<string>("10:00");
+  const [warningMsg, setWarningMsg] = useState<string>("");
 
-    useEffect(() => {
-        fetch(`${API_URL}/services/${params.id}`)
-            .then(async (res) => {
-                const json = await res.json();
-                setService(json);
-            })
-            .catch((err) => console.log(err))
-    }, [params.id])
+  useEffect(() => {
+    fetch(`${API_URL}/services/${params.id}`)
+      .then(async (res) => {
+        const json = await res.json();
+        setService(json);
+      })
+      .catch((err) => console.log(err));
+  }, [params.id]);
 
-    return (
-        <div className="flex flex-col min-h-screen gap-5">
-            <h1>Detalle del servicio <strong>{service?.name}</strong></h1>
+  useEffect(() => {
+    console.log({ time, busyTime, date, busyDate });
+  }, [time, busyTime, date, busyDate]);
 
-            <div>
-                <p>Empleados</p>
-                <ul className="list bg-base-100 rounded-box shadow-md">
-                    {
-                        service?.appointments.map((appointment, index) => (
-                            <li className="list-row">
-                                <div className="text-4xl font-thin opacity-30 tabular-nums">{index + 1}</div>
-                                <div><img className="size-10 rounded-box" src="https://img.daisyui.com/images/profile/demo/1@94.webp" /></div>
-                                <div className="list-col-grow">
-                                    <div>{appointment.employee.fullName}</div>
-                                    <div className="text-xs uppercase font-semibold opacity-60">{appointment.employee.phone}</div>
-                                </div>
-                                <button className="btn btn-square btn-ghost">
-                                    <svg className="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" fill="none" stroke="currentColor"><path d="M6 3L20 12 6 21 6 3z"></path></g></svg>
-                                </button>
-                            </li>
-                        ))
-                    }
-                </ul>
-            </div>
+  return (
+    <div className="flex flex-col min-h-screen gap-5">
+      <h1>
+        Detalle del servicio <strong>{service?.name}</strong>
+      </h1>
 
-        </div>
-    )
+      <div>
+        <p>Empleados</p>
+        <ul className="list bg-base-100 rounded-box shadow-md">
+          {service?.appointments.map((appointment, index) => (
+            <li className="list-row">
+              <div className="text-4xl font-thin opacity-30 tabular-nums">
+                {index + 1}
+              </div>
+              <div>
+                <img
+                  className="size-10 rounded-box"
+                  src="https://img.daisyui.com/images/profile/demo/1@94.webp"
+                />
+              </div>
+              <div className="list-col-grow">
+                <div>{appointment.employee.fullName}</div>
+                <div className="text-xs uppercase font-semibold opacity-60">
+                  {appointment.employee.phone}
+                </div>
+              </div>
+              <button className="btn btn-square btn-ghost">
+                <svg
+                  className="size-[1.2em]"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <g
+                    strokeLinejoin="round"
+                    strokeLinecap="round"
+                    strokeWidth="2"
+                    fill="none"
+                    stroke="currentColor"
+                  >
+                    <path d="M6 3L20 12 6 21 6 3z"></path>
+                  </g>
+                </svg>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <DayPicker
+        className="react-day-picker"
+        mode="single"
+        selected={date}
+        onSelect={setDate}
+        footer={date ? `Selected: ${date.toLocaleDateString()}` : "Pick a day."}
+      />
+
+      <input
+        type="time"
+        className="input"
+        onChange={(e) => setTime(e.target.value)}
+      />
+      {date?.getTime() === busyDate.getTime() && time === busyTime ? (
+        <p>Ocupado!</p>
+      ) : null}
+    </div>
+  );
 }
