@@ -26,11 +26,11 @@ export function LoginForm({ onSubmit, onGoogleSignIn }: LoginFormProps) {
           placeholder="Usuario"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          className="w-full rounded-lg border border-zinc-700 dark:border-zinc-700 border-zinc-300 
-            bg-zinc-800/50 dark:bg-zinc-800/50 bg-white/80 
+          className="w-full rounded-lg border border-zinc-300  dark:border-zinc-700 
+            bg-white/80 dark:bg-zinc-800/50
             px-4 py-3 text-sm 
-            text-white dark:text-white text-zinc-900
-            placeholder:text-zinc-500 dark:placeholder:text-zinc-500 placeholder:text-zinc-400
+              text-zinc-900
+             dark:placeholder:text-zinc-500 placeholder:text-zinc-500
             focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500
             transition-colors"
           required
@@ -43,11 +43,11 @@ export function LoginForm({ onSubmit, onGoogleSignIn }: LoginFormProps) {
           placeholder="Contraseña"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full rounded-lg border border-zinc-700 dark:border-zinc-700 border-zinc-300 
-            bg-zinc-800/50 dark:bg-zinc-800/50 bg-white/80 
+          className="w-full rounded-lg border dark:border-zinc-700 border-zinc-300 
+           dark:bg-zinc-800/50 bg-white/80 
             px-4 py-3 pr-12 text-sm 
-            text-white dark:text-white text-zinc-900
-            placeholder:text-zinc-500 dark:placeholder:text-zinc-500 placeholder:text-zinc-400
+           dark:text-white text-zinc-900
+            placeholder:text-zinc-500 dark:placeholder:text-zinc-500 
             focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500
             transition-colors"
           required
@@ -58,10 +58,21 @@ export function LoginForm({ onSubmit, onGoogleSignIn }: LoginFormProps) {
           className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors"
         >
           {showPassword ? (
-            <BaseIcon icon="eyeOff" size={24} color="currentColor" viewBox="0 0 24 24" className="h-5 w-5" />
+            <BaseIcon
+              icon="eyeOff"
+              size={24}
+              color="currentColor"
+              viewBox="0 0 24 24"
+              className="h-5 w-5"
+            />
           ) : (
-            <BaseIcon icon="eye" size={24} color="currentColor" viewBox="0 0 24 24" className="h-5 w-5" />
-
+            <BaseIcon
+              icon="eye"
+              size={24}
+              color="currentColor"
+              viewBox="0 0 24 24"
+              className="h-5 w-5"
+            />
           )}
         </button>
       </div>
@@ -70,29 +81,37 @@ export function LoginForm({ onSubmit, onGoogleSignIn }: LoginFormProps) {
       <button
         type="submit"
         className="w-full rounded-lg 
-          bg-zinc-700 dark:bg-zinc-700 bg-zinc-200
+           dark:bg-zinc-700 bg-zinc-200
           py-3 text-sm font-medium 
-          text-zinc-300 dark:text-zinc-300 text-zinc-600
-          hover:bg-zinc-600 dark:hover:bg-zinc-600 hover:bg-zinc-300
+           dark:text-zinc-300 text-zinc-600
+           dark:hover:bg-zinc-600 hover:bg-zinc-300
           transition-colors"
       >
         Iniciar Sesión
       </button>
 
-      {/* login google boton */}
+      {/* login google boton 
       <button
         type="button"
         onClick={onGoogleSignIn}
         className="flex w-full items-center justify-center gap-3 rounded-lg 
-          bg-white dark:bg-white bg-zinc-100
+           dark:bg-white bg-zinc-100
           py-3 text-sm font-medium 
           text-zinc-900 
-          hover:bg-zinc-100 dark:hover:bg-zinc-100 hover:bg-zinc-200
+           dark:hover:bg-zinc-100 hover:bg-zinc-200
           transition-colors"
       >
-        <BaseIcon icon="google" size={24} color="currentColor" viewBox="0 0 24 24" className="h-5 w-5" />
+
+        <BaseIcon
+          icon="google"
+          size={24}
+          color="currentColor"
+          viewBox="0 0 24 24"
+          className="h-5 w-5"
+        />
         Entrar con Google
       </button>
+      */}
 
       {/* registrarse/crear cuenta 
         ocultare este boton despues, lo dejare para mostrarselo al kevin
@@ -109,4 +128,3 @@ export function LoginForm({ onSubmit, onGoogleSignIn }: LoginFormProps) {
     </form>
   );
 }
-

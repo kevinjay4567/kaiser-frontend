@@ -8,8 +8,16 @@ export function AparienceSwitcher() {
   useEffect(() => {
     const theme = isDark ? "dark" : "light";
     document.documentElement.setAttribute("data-theme", theme);
+    document.documentElement.classList.toggle("dark", isDark);
     localStorage.setItem("theme", theme);
   }, [isDark]);
+
+  console.log(
+    "dark mode",
+    document.documentElement.classList.contains("dark"),
+    document.documentElement.getAttribute("data-theme"),
+    localStorage.getItem("theme"),
+  );
 
   return (
     <label className="flex cursor-pointer gap-2">
