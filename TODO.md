@@ -4,7 +4,7 @@ PA Kobar:
 - [x] dropdown de imagen de usuario.
 - [x] Crear un componente de icono.
 - [x] Crear componente para cambiar de tema.
-- [ ] enviar formulario de login usando ENTER
+- [x] enviar formulario de login usando ENTER
 
 PA Kevin:
 
