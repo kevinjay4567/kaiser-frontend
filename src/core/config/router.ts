@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router";
-import { BookingPage, HomePage, LoginPage } from "@/ui/pages/public";
+import { BookingPage, ContactPage, HomePage, LoginPage } from "@/ui/pages/public";
 import { DashboardPage } from "@/ui/pages/admin/Dashboard/DashboardPage";
 import { ServiceDetail } from "@/ui/pages/public/ServiceDetail";
 import { ServiceManager } from "@/ui/pages/admin/ServiceManager";
@@ -30,6 +30,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     Component: LoginPage,
+  },
+  {
+    path: "/contacto",
+    Component: ContactPage,
   },
   {
     path: "/admin",

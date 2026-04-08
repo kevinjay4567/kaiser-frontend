@@ -1,5 +1,6 @@
 import heroImage from "@/assets/hero-barbershop.jpg";
 import { Hero } from "@/ui/layouts/Hero";
+import { Link } from "react-router";
 
 export function HomePage() {
   return (
@@ -12,7 +13,14 @@ export function HomePage() {
             excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
             a id nisi.
           </p>
-          <button className="btn btn-primary">Get Started</button>
+          <div className="flex gap-3">
+            <Link to="/booking" className="btn btn-primary">
+              Get Started
+            </Link>
+            <Link to="/contacto" className="btn btn-outline">
+              Contactanos
+            </Link>
+          </div>
         </div>
       </Hero>
     </>
