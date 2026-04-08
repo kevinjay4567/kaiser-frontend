@@ -5,6 +5,7 @@ PA Kobar:
 - [x] Crear un componente de icono.
 - [x] Crear componente para cambiar de tema.
 - [x] enviar formulario de login usando ENTER
+- [ ] Crear vista de agendar cita (frontend)
 
 PA Kevin:
 
@@ -12,3 +13,4 @@ PA Kevin:
 - [x] mejoras en la experiencia de usuario al cargar los servicios.
 - [x] mostrar errores de usuario con notificaciones.
 - [ ] pasar las funcionalidades de servicios a desktop.
+- [ ] Crear logica para la asignacion de citas.
