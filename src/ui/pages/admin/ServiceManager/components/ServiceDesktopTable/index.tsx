@@ -4,9 +4,10 @@ import { TableRow } from "./TableRow";
 interface Props {
   data: Service[];
   isChecked: (id: string, e: React.ChangeEvent<HTMLInputElement>) => void;
+  onViewDetails: (service: Service) => void;
 }
 
-export function ServiceDesktopTable({ data, isChecked }: Readonly<Props>) {
+export function ServiceDesktopTable({ data, isChecked, onViewDetails }: Readonly<Props>) {
   return (
     <div className="hidden md:block overflow-x-auto">
       <table className="table table-zebra">
@@ -32,6 +33,7 @@ export function ServiceDesktopTable({ data, isChecked }: Readonly<Props>) {
               key={service.id}
               service={service}
               isChecked={isChecked}
+              onViewDetails={onViewDetails}
             />
           ))}
         </tbody>

@@ -3,7 +3,7 @@ import type { Service } from "@/core/interfaces";
 import OperationService from "@/core/services/OperationService";
 import RuntimeException from "@/core/exceptions/RuntimeException";
 
-export const useFecthServices = () => {
+export const useFetchServices = () => {
   const [services, setServices] = useState<Service[]>([]);
   const [query, setQuery] = useState("");
   const [error, setError] = useState<RuntimeException | null>(null);

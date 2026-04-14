@@ -1,13 +1,18 @@
 import { API_URL } from "@/core/config/environment";
 import { BaseAlert } from "@/ui/components/base/BaseAlert";
 import { useNotify } from "@/ui/hooks/useNotify";
-import { useState, type ChangeEvent, type SubmitEvent } from "react";
+import { useState, useEffect, type ChangeEvent, type FormEvent } from "react";
+import type { Service } from "@/core/interfaces";
 
 interface Props {
   reload?: () => Promise<void>;
+  isOpen: boolean;
+  onClose: () => void;
+  service?: Service | null;
+  readOnly?: boolean;
 }
 
-export function CreateServiceDrawer({ reload }: Readonly<Props>) {
+export function CreateServiceDrawer({ reload, isOpen, onClose, service, readOnly }: Readonly<Props>) {
   const { setMessage, notify } = useNotify();
   const [name, setName] = useState<string>("");
   const [price, setPrice] = useState<string>("");
@@ -16,9 +21,26 @@ export function CreateServiceDrawer({ reload }: Readonly<Props>) {
   const [description, setDescription] = useState<string>("");
   const [state, setState] = useState<boolean>(true);
   const [loading, setLoading] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
   const [image, setImage] = useState<File | null>(null);
   const [successMessage, setSuccesMessage] = useState<string>("");
+
+  useEffect(() => {
+    if (service) {
+      setName(service.name);
+      setPrice(service.price.toString());
+      setDuration(service.duration);
+      setDiscount(service.discount?.toString() || "0");
+      setDescription(service.description || "");
+      setState(service.state);
+    } else {
+      setName("");
+      setPrice("");
+      setDuration(0);
+      setDiscount("0");
+      setDescription("");
+      setState(true);
+    }
+  }, [service]);
 
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -82,8 +104,10 @@ export function CreateServiceDrawer({ reload }: Readonly<Props>) {
       });
   };
 
-  const handleSendService = (e: SubmitEvent<HTMLFormElement>) => {
+  const handleSendService = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (readOnly) return;
 
     setLoading(true);
 
@@ -128,7 +152,7 @@ export function CreateServiceDrawer({ reload }: Readonly<Props>) {
       })
       .finally(() => {
         setLoading(false);
-        setIsOpen(false);
+        onClose();
         setName("");
         setPrice("");
         setDuration(0);
@@ -140,22 +164,14 @@ export function CreateServiceDrawer({ reload }: Readonly<Props>) {
   };
 
   return (
-    <div className="drawer drawer-end">
+    <div className="drawer drawer-end absolute z-50">
       <input
         id="my-drawer-5"
         type="checkbox"
         className="drawer-toggle"
         checked={isOpen}
+        readOnly
       />
-      <div className="drawer-content flex flex-col items-center justify-center p-8">
-        <label
-          htmlFor="my-drawer-5"
-          className="btn btn-primary shadow-lg"
-          onClick={() => setIsOpen(true)}
-        >
-          Crear Nuevo Servicio
-        </label>
-      </div>
 
       <div className="drawer-side z-50">
         <label
@@ -166,12 +182,12 @@ export function CreateServiceDrawer({ reload }: Readonly<Props>) {
         <div className="bg-base-100 min-h-full w-full md:w-150 flex flex-col shadow-2xl">
           <div className="flex justify-between items-center p-6 border-b border-base-200">
             <h2 className="text-2xl font-bold text-base-content">
-              Crear Nuevo Servicio
+              {readOnly ? "Detalles del Servicio" : "Crear Nuevo Servicio"}
             </h2>
             <label
               htmlFor="my-drawer-5"
               className="btn btn-sm btn-circle btn-ghost"
-              onClick={() => setIsOpen(false)}
+              onClick={onClose}
             >
               ✕
             </label>
@@ -188,6 +204,7 @@ export function CreateServiceDrawer({ reload }: Readonly<Props>) {
                   placeholder="Ingrese nombre del servicio"
                   value={name}
                   onChange={(e) => handleNameChange(e)}
+                  readOnly={readOnly}
                 />
               </fieldset>
 
@@ -202,6 +219,7 @@ export function CreateServiceDrawer({ reload }: Readonly<Props>) {
                     placeholder="Ingrese precio del servicio"
                     value={price}
                     onChange={(e) => handlePriceChange(e)}
+                    readOnly={readOnly}
                   />
                 </fieldset>
                 <fieldset className="fieldset w-full">
@@ -214,6 +232,7 @@ export function CreateServiceDrawer({ reload }: Readonly<Props>) {
                     placeholder="Ingrese duración del servicio"
                     value={getInputDuration()}
                     onChange={(e) => handleDurationChange(e)}
+                    readOnly={readOnly}
                   />
                 </fieldset>
               </div>
@@ -228,6 +247,7 @@ export function CreateServiceDrawer({ reload }: Readonly<Props>) {
                   placeholder="Ingrese descuento del servicio"
                   value={discount}
                   onChange={(e) => handleDiscountChange(e)}
+                  readOnly={readOnly}
                 />
               </fieldset>
 
@@ -241,6 +261,7 @@ export function CreateServiceDrawer({ reload }: Readonly<Props>) {
                   placeholder="Ingrese descripción del servicio"
                   value={description}
                   onChange={(e) => handleDescriptionChange(e)}
+                  readOnly={readOnly}
                 />
               </fieldset>
 
@@ -254,6 +275,7 @@ export function CreateServiceDrawer({ reload }: Readonly<Props>) {
                     className="file-input file-input-bordered file-input-error w-full bg-base-100"
                     accept="image/*"
                     onChange={handleImageChange}
+                    disabled={readOnly}
                   />
                   <label className="fieldset-label text-xs mt-2 opacity-70">
                     Tamaño máximo 10MB
@@ -273,6 +295,7 @@ export function CreateServiceDrawer({ reload }: Readonly<Props>) {
                       className="toggle toggle-success"
                       checked={state}
                       onChange={handleStateChange}
+                      disabled={readOnly}
                     />
                   </label>
                 </fieldset>
@@ -281,16 +304,18 @@ export function CreateServiceDrawer({ reload }: Readonly<Props>) {
                 <label
                   htmlFor="my-drawer-5"
                   className="btn btn-ghost"
-                  onClick={() => setIsOpen(false)}
+                  onClick={onClose}
                 >
-                  Cancelar
+                  {readOnly ? "Cerrar" : "Cancelar"}
                 </label>
-                <button type="submit" className="btn btn-primary">
-                  {loading ? (
-                    <span className="loading loading-spinner"></span>
-                  ) : null}
-                  Guardar Servicio
-                </button>
+                {!readOnly && (
+                  <button type="submit" className="btn btn-primary">
+                    {loading ? (
+                      <span className="loading loading-spinner"></span>
+                    ) : null}
+                    Guardar Servicio
+                  </button>
+                )}
               </div>
             </form>
           </div>

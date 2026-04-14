@@ -6,9 +6,10 @@ import { API_URL } from "@/core/config/environment";
 interface Props {
   service: Service;
   isChecked: (id: string, e: React.ChangeEvent<HTMLInputElement>) => void;
+  onViewDetails: (service: Service) => void;
 }
 
-export function TableRow({ service, isChecked }: Readonly<Props>) {
+export function TableRow({ service, isChecked, onViewDetails }: Readonly<Props>) {
   const [isValid, setIsValid] = useState(false);
 
   const getImage = () => {
@@ -67,7 +68,12 @@ export function TableRow({ service, isChecked }: Readonly<Props>) {
       <td>{service.duration} min</td>
 
       <td>
-        <button className="btn btn-ghost btn-sm">Detalle</button>
+        <button 
+          className="btn btn-ghost btn-sm"
+          onClick={() => onViewDetails(service)}
+        >
+          Detalle
+        </button>
       </td>
     </tr>
   );

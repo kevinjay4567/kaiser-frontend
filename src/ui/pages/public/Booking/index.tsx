@@ -1,6 +1,6 @@
 import type { Service, ServiceQueryResponse } from "@/core/interfaces";
 import { ServiceListItem } from "@/ui/components/ServiceListItem";
-import { useFecthServices } from "@/ui/pages/admin/ServiceManager/hooks/useFetchServices";
+import { useFetchServices } from "@/ui/pages/admin/ServiceManager/hooks/useFetchServices";
 import { ServiceSearchTool } from "./components/ServiceSearchTool";
 import { useEffect, useState } from "react";
 import { API_URL } from "@/core/config/environment";
@@ -12,7 +12,7 @@ export function BookingPage() {
     query: servicesQuery,
     setQuery: setServicesQuery,
     setServices,
-  } = useFecthServices();
+  } = useFetchServices();
 
   const handleSearch = async () => {
     if (!servicesQuery.trim()) {

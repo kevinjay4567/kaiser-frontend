@@ -1,14 +1,33 @@
 import { AdminLayout } from "@/ui/layouts";
-import { useFecthServices } from "@/ui/pages/admin/ServiceManager/hooks/useFetchServices";
+import { useFetchServices } from "@/ui/pages/admin/ServiceManager/hooks/useFetchServices";
 import { useEffect, useState, type ChangeEvent } from "react";
+import type { Service } from "@/core/interfaces";
 import { ServiceMobileList } from "./components/ServiceMobileList";
 import { ServiceDesktopTable } from "./components/ServiceDesktopTable";
 import { CreateServiceDrawer } from "./components/CreateServiceDrawer";
 import { API_URL } from "@/core/config/environment";
-import { BaseIcon } from "@/ui/components/base/BaseIcon";
+import { ServiceFabButton } from "./components/ServiceFabButton";
 export function ServiceManager() {
-  const { services, execute } = useFecthServices();
+  const { services, execute } = useFetchServices();
   const [servicesIds, setServicesIds] = useState<string[]>([]);
+  const [isCreateDrawerOpen, setIsCreateDrawerOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState<Service | null>(null);
+  const [isViewMode, setIsViewMode] = useState(false);
+
+  const handleViewDetails = (service: Service) => {
+    setSelectedService(service);
+    setIsViewMode(true);
+    setIsCreateDrawerOpen(true);
+  };
+
+  const handleCloseDrawer = () => {
+    setIsCreateDrawerOpen(false);
+    // Add a slight delay to avoid UI flicker when closing
+    setTimeout(() => {
+      setSelectedService(null);
+      setIsViewMode(false);
+    }, 300);
+  };
 
   const handleDeletes = (servicesIds: string[]) => {
     fetch(`${API_URL}/services`, {
@@ -45,53 +64,32 @@ export function ServiceManager() {
   return (
     <AdminLayout>
       {/* ===== Vista desktop: table ===== */}
-      <ServiceDesktopTable data={services} isChecked={isChecked} />
+      <ServiceDesktopTable 
+        data={services} 
+        isChecked={isChecked} 
+        onViewDetails={handleViewDetails}
+      />
 
       {/* ===== Vista móvil: cards ===== */}
       <ServiceMobileList services={services} isChecked={isChecked} />
 
-      <CreateServiceDrawer reload={execute} />
+      <CreateServiceDrawer 
+        reload={execute} 
+        isOpen={isCreateDrawerOpen} 
+        onClose={handleCloseDrawer} 
+        service={selectedService}
+        readOnly={isViewMode}
+      />
 
-      <div className="fab fab-flower">
-        {/* a focusable div with tabIndex is necessary to work on all browsers. role="button" is necessary for accessibility */}
-        <div tabIndex={0} role="button" className="btn btn-circle btn-lg">
-          <BaseIcon
-            icon="settings"
-            size={24}
-            color="currentColor"
-            viewBox="0 0 24 24"
-          />
-        </div>
-
-        {/* Main Action button replaces the original button when FAB is open */}
-        <button className="fab-main-action btn btn-circle btn-lg btn-primary">
-          <BaseIcon
-            icon="close"
-            size={24}
-            color="currentColor"
-            viewBox="0 0 24 24"
-          />
-        </button>
-
-        {/* buttons that show up when FAB is open */}
-        <button className="btn btn-circle btn-lg btn-success">
-          <BaseIcon icon="plus" size={24} color="currentColor" />
-        </button>
-        <button className="btn btn-circle btn-lg btn-warning">
-          <BaseIcon icon="edit" size={24} color="currentColor" />
-        </button>
-        <button
-          className="btn btn-circle btn-lg btn-error"
-          onClick={() => handleDeletes(servicesIds)}
-        >
-          <BaseIcon
-            icon="trash"
-            size={24}
-            color="currentColor"
-            viewBox="0 0 24 24"
-          />
-        </button>
-      </div>
+      <ServiceFabButton 
+        onAdd={() => {
+          setSelectedService(null);
+          setIsViewMode(false);
+          setIsCreateDrawerOpen(true);
+        }}
+        onDelete={() => handleDeletes(servicesIds)}
+        disabledDelete={servicesIds.length === 0}
+      />
     </AdminLayout>
   );
 }
