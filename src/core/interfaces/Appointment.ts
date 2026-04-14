@@ -4,4 +4,8 @@ export interface Appointment {
     id: string;
     serviceId: string;
     employee: Employee
+    Customer: {
+        id: string;
+        ingress: string;
+    }[]
 }

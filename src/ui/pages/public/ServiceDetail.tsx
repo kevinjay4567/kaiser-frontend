@@ -1,4 +1,5 @@
 import { API_URL } from "@/core/config/environment";
+import type { Appointment } from "@/core/interfaces/Appointment";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import type { Service } from "@/core/interfaces";
@@ -13,6 +14,16 @@ export function ServiceDetail() {
   const [busyTime, setBusyTime] = useState<string>("10:00");
   const [warningMsg, setWarningMsg] = useState<string>("");
 
+
+  function handleEmployeeSelected(appointment: Appointment) {
+    let dateTest = new Date(appointment.Customer[0].ingress)
+    const currentHour = dateTest.getHours()
+    const currentMinutes = dateTest.getMinutes()
+    const timeArmed = `${currentHour < 10 ? '0' + currentHour : currentHour}:${currentMinutes < 10 ? '0' + currentMinutes : currentMinutes}`
+    dateTest.setHours(0, 0, 0, 0)
+    setBusyDate(dateTest)
+    setBusyTime(timeArmed)
+  }
   useEffect(() => {
     fetch(`${API_URL}/services/${params.id}`)
       .then(async (res) => {
@@ -33,45 +44,24 @@ export function ServiceDetail() {
       </h1>
 
       <div>
-        <p>Empleados</p>
-        <ul className="list bg-base-100 rounded-box shadow-md">
+        <h2 className="text-xl font-bold">Empleados</h2>
+        <div className="grid grid-cols-3 gap-4 mt-8">
           {service?.appointments.map((appointment, index) => (
-            <li className="list-row">
-              <div className="text-4xl font-thin opacity-30 tabular-nums">
-                {index + 1}
-              </div>
-              <div>
-                <img
-                  className="size-10 rounded-box"
-                  src="https://img.daisyui.com/images/profile/demo/1@94.webp"
-                />
-              </div>
-              <div className="list-col-grow">
-                <div>{appointment.employee.fullName}</div>
-                <div className="text-xs uppercase font-semibold opacity-60">
-                  {appointment.employee.phone}
+            <div
+              key={index}
+              className="flex flex-col items-center gap-3 cursor-pointer"
+            >
+              <div className="avatar">
+                <div className="w-16 rounded-lg">
+                  <img src="https://img.daisyui.com/images/profile/demo/batperson@192.webp" alt={appointment.employee.fullName} onClick={() => handleEmployeeSelected(appointment)} />
                 </div>
               </div>
-              <button className="btn btn-square btn-ghost">
-                <svg
-                  className="size-[1.2em]"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                >
-                  <g
-                    strokeLinejoin="round"
-                    strokeLinecap="round"
-                    strokeWidth="2"
-                    fill="none"
-                    stroke="currentColor"
-                  >
-                    <path d="M6 3L20 12 6 21 6 3z"></path>
-                  </g>
-                </svg>
-              </button>
-            </li>
+              <div className="text-center font-medium text-sm text-balance">
+                {appointment.employee.fullName}
+              </div>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
 
       <DayPicker

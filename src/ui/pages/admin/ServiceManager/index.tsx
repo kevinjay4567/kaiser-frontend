@@ -22,7 +22,6 @@ export function ServiceManager() {
 
   const handleCloseDrawer = () => {
     setIsCreateDrawerOpen(false);
-    // Add a slight delay to avoid UI flicker when closing
     setTimeout(() => {
       setSelectedService(null);
       setIsViewMode(false);
@@ -64,24 +63,24 @@ export function ServiceManager() {
   return (
     <AdminLayout>
       {/* ===== Vista desktop: table ===== */}
-      <ServiceDesktopTable 
-        data={services} 
-        isChecked={isChecked} 
+      <ServiceDesktopTable
+        data={services}
+        isChecked={isChecked}
         onViewDetails={handleViewDetails}
       />
 
       {/* ===== Vista móvil: cards ===== */}
       <ServiceMobileList services={services} isChecked={isChecked} />
 
-      <CreateServiceDrawer 
-        reload={execute} 
-        isOpen={isCreateDrawerOpen} 
-        onClose={handleCloseDrawer} 
+      <CreateServiceDrawer
+        reload={execute}
+        isOpen={isCreateDrawerOpen}
+        onClose={handleCloseDrawer}
         service={selectedService}
         readOnly={isViewMode}
       />
 
-      <ServiceFabButton 
+      <ServiceFabButton
         onAdd={() => {
           setSelectedService(null);
           setIsViewMode(false);
