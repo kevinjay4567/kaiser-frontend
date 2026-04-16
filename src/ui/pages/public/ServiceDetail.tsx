@@ -11,18 +11,26 @@ export function ServiceDetail() {
   const [date, setDate] = useState<Date | undefined>();
   const [busyDate, setBusyDate] = useState<Date>(new Date(2026, 3, 9));
   const [time, setTime] = useState<string>("");
+  const [busyTimeBef, setBusyTimeBef] = useState<string>("");
+  const [busyTimeAft, setBusyTimeAft] = useState<string>("");
   const [busyTime, setBusyTime] = useState<string>("10:00");
   const [warningMsg, setWarningMsg] = useState<string>("");
 
-
   function handleEmployeeSelected(appointment: Appointment) {
-    let dateTest = new Date(appointment.Customer[0].ingress)
-    const currentHour = dateTest.getHours()
-    const currentMinutes = dateTest.getMinutes()
-    const timeArmed = `${currentHour < 10 ? '0' + currentHour : currentHour}:${currentMinutes < 10 ? '0' + currentMinutes : currentMinutes}`
-    dateTest.setHours(0, 0, 0, 0)
-    setBusyDate(dateTest)
-    setBusyTime(timeArmed)
+    let dateTest = new Date(appointment.Customer[0].ingress);
+    const currentHour = dateTest.getHours();
+    const currentMinutes = dateTest.getMinutes();
+
+    const timeb = 24 - 2;
+    const timea = currentHour + 2;
+    const before = `${timeb < 10 ? (timeb < 0 ? timeb : "0" + timeb) : timeb}:${currentMinutes < 10 ? "0" + currentMinutes : currentMinutes}`;
+    const after = `${timea < 10 ? "0" + timea : timea}:${currentMinutes < 10 ? "0" + currentMinutes : currentMinutes}`;
+    const timeArmed = `${currentHour < 10 ? "0" + currentHour : currentHour}:${currentMinutes < 10 ? "0" + currentMinutes : currentMinutes}`;
+    dateTest.setHours(0, 0, 0, 0);
+    setBusyDate(dateTest);
+    setBusyTime(timeArmed);
+    setBusyTimeBef(before);
+    setBusyTimeAft(after);
   }
   useEffect(() => {
     fetch(`${API_URL}/services/${params.id}`)
@@ -34,7 +42,7 @@ export function ServiceDetail() {
   }, [params.id]);
 
   useEffect(() => {
-    console.log({ time, busyTime, date, busyDate });
+    console.log({ time, busyTime, date, busyDate, busyTimeBef, busyTimeAft });
   }, [time, busyTime, date, busyDate]);
 
   return (
@@ -53,7 +61,11 @@ export function ServiceDetail() {
             >
               <div className="avatar">
                 <div className="w-16 rounded-lg">
-                  <img src="https://img.daisyui.com/images/profile/demo/batperson@192.webp" alt={appointment.employee.fullName} onClick={() => handleEmployeeSelected(appointment)} />
+                  <img
+                    src="https://img.daisyui.com/images/profile/demo/batperson@192.webp"
+                    alt={appointment.employee.fullName}
+                    onClick={() => handleEmployeeSelected(appointment)}
+                  />
                 </div>
               </div>
               <div className="text-center font-medium text-sm text-balance">
@@ -77,7 +89,9 @@ export function ServiceDetail() {
         className="input"
         onChange={(e) => setTime(e.target.value)}
       />
-      {date?.getTime() === busyDate.getTime() && time === busyTime ? (
+      {date?.getTime() === busyDate.getTime() &&
+      time >= busyTimeBef &&
+      busyTimeAft >= time ? (
         <p>Ocupado!</p>
       ) : null}
     </div>
