@@ -2,7 +2,7 @@ import type { Service, ServiceQueryResponse } from "@/core/interfaces";
 import { ServiceListItem } from "@/ui/components/ServiceListItem";
 import { useFetchServices } from "@/ui/pages/admin/ServiceManager/hooks/useFetchServices";
 import { ServiceSearchTool } from "./components/ServiceSearchTool";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { API_URL } from "@/core/config/environment";
 
 export function BookingPage() {
