@@ -1,4 +1,5 @@
 import heroImage from "@/assets/hero-barbershop.jpg";
+import PreviewServices from "@/ui/layouts/components/PreviewServices";
 import { Hero } from "@/ui/layouts/Hero";
 
 export function HomePage() {
@@ -15,6 +16,7 @@ export function HomePage() {
           <button className="btn btn-primary">Get Started</button>
         </div>
       </Hero>
+      <PreviewServices/>
     </>
   );
 }
