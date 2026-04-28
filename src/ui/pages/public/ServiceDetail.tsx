@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import type { Service } from "@/core/interfaces";
 import { DayPicker } from "react-day-picker";
+import { type Employee } from "@/core/interfaces/Employee";
 
 export function ServiceDetail() {
   const params = useParams();
@@ -14,14 +15,18 @@ export function ServiceDetail() {
   const [busyTimeBef, setBusyTimeBef] = useState<string>("");
   const [busyTimeAft, setBusyTimeAft] = useState<string>("");
   const [busyTime, setBusyTime] = useState<string>("10:00");
+  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(
+    null,
+  );
   const [warningMsg, setWarningMsg] = useState<string>("");
 
   function handleEmployeeSelected(appointment: Appointment) {
+    setSelectedEmployee(appointment.employee);
     let dateTest = new Date(appointment.Customer[0].ingress);
     const currentHour = dateTest.getHours();
     const currentMinutes = dateTest.getMinutes();
 
-    const timeb = 24 - 2;
+    const timeb = currentHour - 2;
     const timea = currentHour + 2;
     const before = `${timeb < 10 ? (timeb < 0 ? timeb : "0" + timeb) : timeb}:${currentMinutes < 10 ? "0" + currentMinutes : currentMinutes}`;
     const after = `${timea < 10 ? "0" + timea : timea}:${currentMinutes < 10 ? "0" + currentMinutes : currentMinutes}`;
@@ -55,12 +60,11 @@ export function ServiceDetail() {
         <h2 className="text-xl font-bold">Empleados</h2>
         <div className="grid grid-cols-3 gap-4 mt-8">
           {service?.appointments.map((appointment, index) => (
-            <div
-              key={index}
-              className="flex flex-col items-center gap-3 cursor-pointer"
-            >
+            <div key={index} className="flex flex-col items-center gap-3">
               <div className="avatar">
-                <div className="w-16 rounded-lg">
+                <div
+                  className={`w-16 rounded-lg ${selectedEmployee?.id === appointment.employee.id ? "ring-primary ring-offset-base-100 ring-2 ring-offset-2" : null}  cursor-pointer`}
+                >
                   <img
                     src="https://img.daisyui.com/images/profile/demo/batperson@192.webp"
                     alt={appointment.employee.fullName}
@@ -81,7 +85,11 @@ export function ServiceDetail() {
         mode="single"
         selected={date}
         onSelect={setDate}
-        footer={date ? `Selected: ${date.toLocaleDateString()}` : "Pick a day."}
+        footer={
+          date
+            ? `${selectedEmployee?.fullName} -- Seleccionado: ${date.toLocaleDateString()}`
+            : "Pick a day."
+        }
       />
 
       <input
